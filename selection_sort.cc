@@ -1,8 +1,6 @@
-#include <algorithm>
 #include <string>
 #include <vector>
 #include <cassert>
-#include <concepts>
 
 template <typename T>
 concept less_comparable = requires (T a, T b)
@@ -11,61 +9,29 @@ concept less_comparable = requires (T a, T b)
 };
 
 template <less_comparable T>
-static int
-median_of_three (std::vector<T> &data, int start, int end)
+static void
+selection_sort (std::vector<T> &data)
 {
-  int mid {start + ((end - start) >> 1)};
+  auto const n = data.size ();
 
-  if (data[mid] < data[start])
-    std::swap (data[mid], data[start]);
-
-  if (data[end] < data[start])
-    std::swap (data[end], data[start]);
-
-  if (data[end] < data[mid])
-    std::swap (data[end], data[mid]);
-
-  return mid;
-}
-
-template <less_comparable T>
-static int
-partition (std::vector<T> &data, int start, int end)
-{
-  int pivot_index {median_of_three (data, start, end)};
-  int p {start - 1};
-
-  for (int i {start}; i < end; ++i)
+  for (size_t i {0}; i < n; ++i)
     {
-      if (data[i] < data[pivot_index])
-        {
-          ++p;
-          std::swap (data[p], data[i]);
-        }
+      size_t min_j = i;
+
+      for (size_t j {i + 1}; j < n; ++j)
+        if (data[j] < data[min_j])
+          min_j = j;
+
+      if (min_j != i)
+        std::swap (data[i], data[min_j]);
     }
-
-  std::swap (data[++p], data[pivot_index]);
-
-  return p;
 }
 
 template <less_comparable T>
-static void
-quicksort (std::vector<T> &data, int start, int end)
-{
-  if (!(start < end))
-    return;
-
-  auto p = partition (data, start, end);
-  quicksort (data, start, p - 1);
-  quicksort (data, p + 1, end);
-}
-
-template <less_comparable T>
-static void
+void
 sort (std::vector<T> &data)
 {
-  quicksort (data, 0, data.size () - 1);
+  selection_sort (data);
 }
 
 struct dummy
@@ -137,8 +103,7 @@ main ()
   }
 
   {
-    // this blows up because this struct doesn't implement
-    // the < operator
+    // Blows up because it doesn't implement < operator
     // std::vector<dummy> data;
     // sort (data);
   }
