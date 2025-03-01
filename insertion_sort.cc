@@ -16,7 +16,7 @@ insertion_sort (std::vector<T> &data)
 {
   auto const n = data.size ();
 
-  for (size_t i {0}; i < n; ++i)
+  for (size_t i {1}; i < n; ++i)
     {
       int j = i;
 
