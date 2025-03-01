@@ -1,3 +1,4 @@
+#include <algorithm>
 #include <string>
 #include <vector>
 #include <cassert>
@@ -11,20 +12,25 @@ concept less_comparable = requires (T a, T b)
 
 template <less_comparable T>
 static void
-selection_sort (std::vector<T> &data)
+bubble_sort (std::vector<T> &data)
 {
   auto const n = data.size ();
 
   for (size_t i {0}; i < n; ++i)
     {
-      size_t min_j = i;
+      bool swapped {false};
 
-      for (size_t j {i + 1}; j < n; ++j)
-        if (data[j] < data[min_j])
-          min_j = j;
+      for (size_t j {0}; j < n - i - 1; ++j)
+        {
+          if (data[j + 1] < data[j])
+            {
+              std::swap (data[j], data[j + 1]);
+              swapped = true;
+            }
+        }
 
-      if (min_j != i)
-        std::swap (data[i], data[min_j]);
+      if (!swapped)
+        break;
     }
 }
 
@@ -32,7 +38,7 @@ template <less_comparable T>
 void
 sort (std::vector<T> &data)
 {
-  selection_sort (data);
+  bubble_sort (data);
 }
 
 struct dummy
