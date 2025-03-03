@@ -33,19 +33,21 @@ static int
 partition (std::vector<T> &data, int start, int end)
 {
   int pivot_index {median_of_three (data, start, end)};
+  T pivot {data[pivot_index]};
+  std::swap (data[pivot_index], data[end]);
   int p {start - 1};
 
   for (int i {start}; i < end; ++i)
     {
-      if (data[i] < data[pivot_index])
+      if (data[i] < pivot)
         {
           ++p;
-          std::swap (data[p], data[i]);
+          std::swap (data[i], data[p]);
         }
     }
 
-  std::swap (data[++p], data[pivot_index]);
-
+  ++p;
+  std::swap (data[p], data[end]);
   return p;
 }
 

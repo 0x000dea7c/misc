@@ -10,8 +10,8 @@ concept less_comparable = requires (T a, T b)
   {a < b} -> std::convertible_to<bool>;
 };
 
-template <typename T>
-static void
+template <less_comparable T>
+void
 insertion_sort (std::vector<T> &data)
 {
   auto const n = data.size ();
@@ -28,7 +28,7 @@ insertion_sort (std::vector<T> &data)
     }
 }
 
-template <typename T>
+template <less_comparable T>
 void
 sort (std::vector<T> &data)
 {
