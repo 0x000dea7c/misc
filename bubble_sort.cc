@@ -20,9 +20,9 @@ bubble_sort (std::vector<T> &data)
     {
       bool swapped {false};
 
-      for (size_t j {0}; j < n - i - 1; ++j)
+      for (size_t j {0}; j < n - 1 - i; ++j)
         {
-          if (data[j + 1] < data[j])
+          if (data[j] > data[j + 1])
             {
               std::swap (data[j], data[j + 1]);
               swapped = true;

@@ -33,7 +33,7 @@ static int
 partition (std::vector<T> &data, int start, int end)
 {
   int pivot_index {median_of_three (data, start, end)};
-  T pivot {data[pivot_index]};
+  T const pivot {data[pivot_index]};
   std::swap (data[pivot_index], data[end]);
   int p {start - 1};
 
@@ -47,7 +47,7 @@ partition (std::vector<T> &data, int start, int end)
     }
 
   ++p;
-  std::swap (data[p], data[end]);
+  std::swap (data[end], data[p]);
   return p;
 }
 
@@ -58,7 +58,7 @@ quicksort (std::vector<T> &data, int start, int end)
   if (!(start < end))
     return;
 
-  auto p = partition (data, start, end);
+  int p {partition (data, start, end)};
   quicksort (data, start, p - 1);
   quicksort (data, p + 1, end);
 }

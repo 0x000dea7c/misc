@@ -10,15 +10,33 @@ concept less_comparable = requires (T a, T b)
   {a < b} -> std::convertible_to<bool>;
 };
 
+// template <less_comparable T>
+// void
+// insertion_sort (std::vector<T> &data)
+// {
+//   auto const n = data.size ();
+
+//   for (size_t i {1}; i < n; ++i)
+//     {
+//       int j = i;
+
+//       while (j > 0 && data[j] < data[j - 1])
+//         {
+//           std::swap (data[j], data[j - 1]);
+//           --j;
+//         }
+//     }
+// }
+
 template <less_comparable T>
-void
+static void
 insertion_sort (std::vector<T> &data)
 {
   auto const n = data.size ();
 
-  for (size_t i {1}; i < n; ++i)
+  for (size_t i {0}; i < n; ++i)
     {
-      int j = i;
+      size_t j {i};
 
       while (j > 0 && data[j] < data[j - 1])
         {
